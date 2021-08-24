@@ -6,7 +6,12 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./style.css"/>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,700;1,100;1,400;1,700&display=swap"
+        rel="stylesheet">
     <title>finance$</title>
 </head>
 
@@ -15,7 +20,7 @@
         <h1 id="logo">finance$</h1>
     </header>
 
-    <main>
+    <main class="container-main">
         <section id="balance">
             <h2>Balanço</h2>
             <div class="card">
@@ -34,7 +39,7 @@
                     <p style="float: left;">2000,00</p>
                 </div>
             </div>
-            <div class="card">
+            <div class="card total">
                 <h3>Total</h3>
 
                 <div id="index-total" style="overflow: hidden;">
@@ -45,7 +50,8 @@
         </section>
 
         <section id="transactions">
-            <table>
+            <h2> Transações </h2>
+            <table id="data-table">
                 <thead>
                     <tr>
                         <th>Descrição</th>
@@ -56,19 +62,19 @@
 
                 <tbody>
                     <tr>
-                        <td>Luz</td>
-                        <td>RS 5000,00</td>
-                        <td>23/01/2021</td>
+                        <td class="description">Luz</td>
+                        <td class="expense">- RS 500,00</td>
+                        <td class="date">23/01/2021</td>
                     </tr>
                     <tr>
-                        <td>Criação de Website</td>
-                        <td>R$ 5000,00</td>
-                        <td>24/01/2021</td>
+                        <td class="description">Criação de Website</td>
+                        <td class="income">R$ 5000,00</td>
+                        <td class="date">24/01/2021</td>
                     </tr>
                     <tr>
-                        <td>Aluguel</td>
-                        <td>R$ 1500,00</td>
-                        <td>28/01/2021</td>
+                        <td class="description">Aluguel</td>
+                        <td class="expense">- R$ 200,00</td>
+                        <td class="date">28/01/2021</td>
                     </tr>
 
                 </tbody>
