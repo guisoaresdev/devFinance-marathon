@@ -1,6 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import Expenses from "./features/expenses/Expenses";
+import Modal from "./components/modal/Modal";
+import store from "./utils/redux/store";
+import { Provider } from "react-redux";
 import reportWebVitals from "./utils/reportWebVitals";
 import "./index.css";
 
@@ -9,7 +12,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <Expenses />
+    <Provider store={store}>
+      <Modal />
+      <Expenses />
+    </Provider>
   </React.StrictMode>,
 );
 

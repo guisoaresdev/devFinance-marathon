@@ -1,13 +1,47 @@
-import React from 'react';
-import './Expenses.css';
+import React from "react";
+import expense from "./assets/expense.svg";
+import income from "./assets/income.svg";
+import logo from "./assets/logo.svg";
+import minus from "./assets/minus.svg";
+import plus from "./assets/plus.svg";
+import total from "./assets/total.svg";
 
-function Expenses() {
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../utils/redux/store";
+import { useAppSelector, useAppDispatch } from "../../hooks/ReduxHooks";
+import { toggleModal } from "../../utils/redux/slices/modalSlice";
+import "./Expenses.css";
+import Modal from "../../components/modal/Modal";
+
+function Header() {
   return (
-  <>
-    <header>
-      <img src="./assets/logo.svg" alt="Logo Dev Finance" />
-    </header>
+    <>
+      <header>
+        <img src={logo} alt="Logo Dev Finance" />
+      </header>
+    </>
+  );
+}
 
+function Footer() {
+  return (
+    <>
+      <footer>
+        <p>dev.finance$</p>
+      </footer>
+    </>
+  );
+}
+
+function Main() {
+  const isOpen = useAppSelector((state: RootState) => state.modal.isOpen);
+  const dispatch = useAppDispatch();
+  const toggle = () => {
+    console.log(isOpen);
+    dispatch(toggleModal());
+  };
+
+  return (
     <main className="container">
       <section id="balance">
         <h2 className="sr-only">Balanço</h2>
@@ -15,7 +49,7 @@ function Expenses() {
         <div className="card">
           <h3>
             <span> Entradas </span>
-            <img src="./assets/income.svg" alt="Image de entradas" />
+            <img src={income} />
           </h3>
           <p id="incomeDisplay">R$ 0,00</p>
         </div>
@@ -23,7 +57,7 @@ function Expenses() {
         <div className="card">
           <h3>
             <span> Saídas </span>
-            <img src="./assets/expense.svg" alt="Image de saídas" />
+            <img src={expense} />
           </h3>
           <p id="expenseDisplay">R$ 0,00</p>
         </div>
@@ -31,7 +65,7 @@ function Expenses() {
         <div className="card total">
           <h3>
             <span> Total </span>
-            <img src="./assets/total.svg" alt="Image de total" />
+            <img src={total} />
           </h3>
           <p id="totalDisplay">R$ 0,00</p>
         </div>
@@ -39,10 +73,9 @@ function Expenses() {
 
       <section id="transaction">
         <h2 className="sr-only">Transações</h2>
-
-        <a href="#" onClick={Modal.toggle} className="button new"
-          >+ Nova Transação</a
-        >
+        <a onClick={toggle} className="button new">
+          + Nova Transação
+        </a>
 
         <table id="data-table">
           <thead>
@@ -57,55 +90,16 @@ function Expenses() {
         </table>
       </section>
     </main>
+  );
+}
 
-    <div className="modal-overlay">
-      <div className="modal">
-        <div id="form">
-          <h2>Nova Transação</h2>
-          <form action="" onSubmit={Form.submit(event)}>
-            <div className="input-group">
-              <label className="sr-only" for="description">Descrição</label>
-              <input
-                type="text"
-                id="description"
-                name="description"
-                placeholder="Descrição"
-              />
-            </div>
-
-            <div className="input-group">
-              <label className="sr-only" for="amount">Valor</label>
-              <input
-                type="number"
-                step="0.01"
-                id="amount"
-                name="amount"
-                placeholder="0,00"
-              />
-              <small className="help"
-                >Use o sinal - (negativo) para despesas e , (vírgula) para casas
-                decimais</small
-              >
-            </div>
-
-            <div className="input-group">
-              <label className="sr-only" for="date">Data</label>
-              <input type="date" id="date" name="date" />
-            </div>
-
-            <div className="input-group actions">
-              <a onClick={Modal.toggle} href="#" className="button cancel"
-                >Cancelar</a
-              >
-              <button>Salvar</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <footer><p>dev.finance$</p></footer>
-  </>
+function Expenses() {
+  return (
+    <>
+      <Header />
+      <Main />
+      <Footer />
+    </>
   );
 }
 
