@@ -13,7 +13,6 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Modal />
       <Expenses />
     </Provider>
   </React.StrictMode>,

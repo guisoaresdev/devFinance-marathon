@@ -6,6 +6,7 @@ import minus from "./assets/minus.svg";
 import plus from "./assets/plus.svg";
 import total from "./assets/total.svg";
 
+import NewTransaction from "../form/new_transaction/NewTransaction";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../utils/redux/store";
 import { useAppSelector, useAppDispatch } from "../../hooks/ReduxHooks";
@@ -34,10 +35,8 @@ function Footer() {
 }
 
 function Main() {
-  const isOpen = useAppSelector((state: RootState) => state.modal.isOpen);
   const dispatch = useAppDispatch();
   const toggle = () => {
-    console.log(isOpen);
     dispatch(toggleModal());
   };
 
@@ -94,10 +93,14 @@ function Main() {
 }
 
 function Expenses() {
+  const isOpen = useAppSelector((state: RootState) => state.modal.isOpen);
   return (
     <>
       <Header />
       <Main />
+      <Modal isOpen={isOpen}>
+        <NewTransaction/>
+      </Modal>
       <Footer />
     </>
   );
