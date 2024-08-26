@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import expense from "./assets/expense.svg";
 import income from "./assets/income.svg";
 import logo from "./assets/logo.svg";
@@ -35,9 +35,19 @@ function Footer() {
 }
 
 function Main() {
+  const [inputs, setInputs] = useState({
+    income: 0,
+    expense: 0,
+    total: 0,
+  });
+
   const dispatch = useAppDispatch();
   const toggle = () => {
     dispatch(toggleModal());
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
   return (
@@ -99,7 +109,7 @@ function Expenses() {
       <Header />
       <Main />
       <Modal isOpen={isOpen}>
-        <NewTransaction/>
+        <NewTransaction />
       </Modal>
       <Footer />
     </>
