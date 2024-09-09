@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../utils/redux/reducers/modalSlice";
 import { useAppSelector, useAppDispatch } from "../../../hooks/ReduxHooks";
@@ -6,10 +6,19 @@ import { RootState } from "../../../utils/redux/store";
 import "./NewTransaction.css";
 
 function NewTransaction() {
+  const [inputs, setInputs] = useState({
+    description: "",
+    amount: 0,
+    date: new Date(),
+  });
   const isOpen = useAppSelector((state: RootState) => state.modal.isOpen);
   const dispatch = useAppDispatch();
   const toggle = () => {
     dispatch(toggleModal());
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
   return (
     <>
@@ -21,6 +30,7 @@ function NewTransaction() {
               Descrição
             </label>
             <input
+              onChange={handleChange}
               type="text"
               id="description"
               name="description"
@@ -33,6 +43,7 @@ function NewTransaction() {
               Valor
             </label>
             <input
+              onChange={handleChange}
               type="number"
               step="0.01"
               id="amount"
@@ -49,7 +60,7 @@ function NewTransaction() {
             <label className="sr-only" htmlFor="date">
               Data
             </label>
-            <input type="date" id="date" name="date" />
+            <input type="date" id="date" name="date" onChange={handleChange} />
           </div>
 
           <div className="input-group actions">
