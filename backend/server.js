@@ -2,9 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const { connectToDatabase } = require("./database/mongodb"); // Importa a conexão com MongoDB
-const router = require("./routes/router");
+const apiRoutes = require("./routes/api");
+const path = require("path");
 
 const app = express();
+const port = 8080;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -16,9 +18,18 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use("/", router);
 
-const port = 8080;
+// Serve o frontend estático
+const frontRootDir = path.join(__dirname, "../frontend", "build");
+app.use(express.static(frontRootDir));
+
+// Rotas da API
+app.use("/api", apiRoutes);
+
+// Rota padrão para o frontend
+app.get("*", (req, res) => {
+  res.sendFile(path.join(frontRootDir, "index.html"));
+});
 
 // Conecte-se ao MongoDB e depois inicie o servidor
 async function startServer() {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import expense from "./assets/expense.svg";
 import income from "./assets/income.svg";
 import logo from "./assets/logo.svg";
@@ -35,11 +35,7 @@ function Footer() {
 }
 
 function Main() {
-  const [inputs, setInputs] = useState({
-    income: 0,
-    expense: 0,
-    total: 0,
-  });
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   const dispatch = useAppDispatch();
   const toggle = () => {
@@ -49,6 +45,25 @@ function Main() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
+
+  const fetchTransactions = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/transactions"); // Endpoint para buscar todas as transações
+      const data = await response.json();
+      setTransactions(data); // Atualiza o estado com as transações recebidas
+    } catch (error) {
+      console.error("Erro ao buscar transações", error);
+    }
+  };
+
+  const handleNewTransaction = (newTransaction: Transaction) => {
+    setTransactions([...transactions, newTransaction]);
+  };
+
+  // useEffect para carregar as transações quando o componente for montado
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
 
   return (
     <main className="container">
@@ -95,7 +110,18 @@ function Main() {
               <th></th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            {transactions.map((transaction, index) => (
+              <tr key={index}>
+                <td>{transaction.description}</td>
+                <td>{transaction.amount}</td>
+                <td>{new Date(transaction.date).toLocaleDateString()}</td>
+                <td>
+                  {/* Aqui você pode adicionar um botão de excluir se necessário */}
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </section>
     </main>
@@ -104,12 +130,21 @@ function Main() {
 
 function Expenses() {
   const isOpen = useAppSelector((state: RootState) => state.modal.isOpen);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+  const handleNewTransaction = (newTransaction: Transaction) => {
+    setTransactions([...transactions, newTransaction]);
+  };
+
   return (
     <>
       <Header />
-      <Main />
+      <Main
+        transactions={transactions}
+        handleNewTransaction={handleNewTransaction}
+      />
       <Modal isOpen={isOpen}>
-        <NewTransaction />
+        <NewTransaction onNewTransaction={handleNewTransaction} />
       </Modal>
       <Footer />
     </>
